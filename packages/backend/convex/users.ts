@@ -16,14 +16,16 @@ export const add = mutation({
     const identity = await ctx.auth.getUserIdentity();
 
     if (identity === null) {
-      throw new Error("Not authenticated");
+      throw new Error("Tidak terautentikasi");
     }
 
     const orgId = identity.orgId as string;
 
     if (!orgId) {
-      throw new Error("Missing organization");
+      throw new Error("Organisasi tidak ditemukan");
     }
+
+    throw new Error("Tes pelacakan");
 
     const usersId = await ctx.db.insert("users", { name: "jakir" });
 
