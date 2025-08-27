@@ -199,7 +199,7 @@ importers:
   apps/widget:
     dependencies:
       '@hookform/resolvers':
-        specifier: ^5.2.0
+        specifier: ^5.2.1
         version: 5.2.1(react-hook-form@7.62.0(react@19.1.1))
       '@vapi-ai/web':
         specifier: ^2.3.9
@@ -235,7 +235,7 @@ importers:
         specifier: ^19.1.1
         version: 19.1.1(react@19.1.1)
       react-hook-form:
-        specifier: ^7.61.1
+        specifier: ^7.62.0
         version: 7.62.0(react@19.1.1)
       zod:
         specifier: ^3.25.76
