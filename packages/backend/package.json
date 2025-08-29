@@ -20,6 +20,7 @@
     "@convex-dev/agent": "^0.2.5",
     "ai": "^5.0.26",
     "convex": "^1.26.1",
-    "convex-helpers": "^0.1.100"
+    "convex-helpers": "^0.1.100",
+    "zod": "^3.25.76"
   }
 }

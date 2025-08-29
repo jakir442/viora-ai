@@ -1,9 +1,53 @@
 import { ConvexError, v } from "convex/values";
-import { mutation, query } from "../_generated/server";
+import { generateText } from "ai";
+import { action, mutation, query } from "../_generated/server";
 import { components } from "../_generated/api";
 import { supportAgent } from "../system/ai/agents/supportAgent";
 import { paginationOptsValidator } from "convex/server";
 import { saveMessage } from "@convex-dev/agent";
+import { google } from "@ai-sdk/google";
+
+export const enhanceResponse = action({
+  args: {
+    prompt: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (identity === null) {
+      throw new ConvexError({
+        code: "UNAUTHORIZED",
+        message: "Identitas tidak ditemukan",
+      });
+    }
+
+    const orgId = identity.orgId as string;
+
+    if (!orgId) {
+      throw new ConvexError({
+        code: "UNAUTHORIZED",
+        message: "Organisai tidak ditemukan",
+      });
+    }
+
+    const response = await generateText({
+      model: google("gemini-2.0-flash"),
+      messages: [
+        {
+          role: "system",
+          content:
+            "Perbaiki/menguatkan pesan operator agar lebih profesional, jelas, dan membantu, sambil tetap mempertahankan maksud dan informasi utamanya.",
+        },
+        {
+          role: "user",
+          content: args.prompt,
+        },
+      ],
+    });
+
+    return response.text;
+  },
+});
 
 export const create = mutation({
   args: {
