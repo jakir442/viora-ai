@@ -18,6 +18,7 @@
     "@ai-sdk/provider-utils": "^3.0.1",
     "@clerk/backend": "^2.10.0",
     "@convex-dev/agent": "^0.2.5",
+    "@convex-dev/rag": "^0.5.2",
     "ai": "^5.0.26",
     "convex": "^1.26.1",
     "convex-helpers": "^0.1.100",
