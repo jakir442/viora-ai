@@ -5,5 +5,5 @@ import { components } from "../../../_generated/api";
 export const supportAgent = new Agent(components.agent, {
   name: "viora-ai-agent",
   languageModel: google("gemini-2.5-flash"),
-  instructions: "Anda adalah agen dukungan pelanggan",
+  instructions: `Anda adalah agen dukungan pelanggan. Gunakan alat "resolveConversation" ketika pengguna menyatakan percakapan telah selesai. Gunakan alat "escalateConversation" ketika pengguna menunjukkan rasa frustrasi, atau secara eksplisit meminta bantuan manusia.`,
 });
