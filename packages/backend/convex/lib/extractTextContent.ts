@@ -64,7 +64,7 @@ async function extractTextFileContent(
 
   const text = new TextDecoder().decode(arrayBuffer);
 
-  if (mimeType.toLowerCase() !== "text/plan") {
+  if (mimeType.toLowerCase() !== "text/plain") {
     const result = await generateText({
       model: AI_MODELS.html,
       system: SYSTEM_PROMPTS.html,
