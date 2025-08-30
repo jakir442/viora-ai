@@ -6,6 +6,7 @@ import { supportAgent } from "../system/ai/agents/supportAgent";
 import { paginationOptsValidator } from "convex/server";
 import { saveMessage } from "@convex-dev/agent";
 import { google } from "@ai-sdk/google";
+import { OPERATOR_MESSAGE_ENHANCEMENT_PROMPT } from "../system/ai/constants";
 
 export const enhanceResponse = action({
   args: {
@@ -31,12 +32,11 @@ export const enhanceResponse = action({
     }
 
     const response = await generateText({
-      model: google("gemini-2.0-flash"),
+      model: google("gemini-2.5-flash"),
       messages: [
         {
           role: "system",
-          content:
-            "Perbaiki/menguatkan pesan operator agar lebih profesional, jelas, dan membantu, sambil tetap mempertahankan maksud dan informasi utamanya.",
+          content: OPERATOR_MESSAGE_ENHANCEMENT_PROMPT,
         },
         {
           role: "user",
