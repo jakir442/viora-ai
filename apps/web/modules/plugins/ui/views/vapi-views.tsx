@@ -20,8 +20,9 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { upsertSecret } from "@workspace/backend/lib/secrets";
+// import { upsertSecret } from "@workspace/backend/lib/secrets";
 import { Button } from "@workspace/ui/components/button";
+import { VapiConnectedView } from "../components/vapi-connected-view";
 
 const vapiFeatures: Feature[] = [
   {
@@ -102,7 +103,7 @@ const VapiPluginForm = ({
                 <FormItem>
                   <Label>Kunci API Public</Label>
                   <FormControl>
-                    <Input {...field} placeholder="Kunci API public Anda" type="text" />
+                    <Input {...field} placeholder="Kunci API public Anda" type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -115,7 +116,7 @@ const VapiPluginForm = ({
                 <FormItem>
                   <Label>Kunci API Private</Label>
                   <FormControl>
-                    <Input {...field} placeholder="Kunci API private Anda" type="text" />
+                    <Input {...field} placeholder="Kunci API private Anda" type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -133,13 +134,54 @@ const VapiPluginForm = ({
   );
 };
 
+const VapiPluginRemoveForm = ({
+  open,
+  setOpen,
+}: {
+  open: boolean;
+  setOpen: (value: boolean) => void;
+}) => {
+  const removePlugin = useMutation(api.private.plugins.remove);
+
+  const onSubmit = async () => {
+    try {
+      await removePlugin({
+        service: "vapi",
+      });
+      setOpen(false);
+      toast.success("Plugin Vapi dihapus");
+    } catch (error) {
+      console.error(error);
+      toast.error("Terjadi kesalahan");
+    }
+  };
+
+  return (
+    <Dialog onOpenChange={setOpen} open={open}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Putuskan sambungan Vapi</DialogTitle>
+        </DialogHeader>
+        <DialogDescription>
+          Apakah Anda yakin ingin memutuskan sambungan plugin Vapi?
+        </DialogDescription>
+        <DialogFooter>
+          <Button onClick={onSubmit} variant="destructive">
+            Putuskan sambungan
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 export const VapiView = () => {
   const vapiPlugin = useQuery(api.private.plugins.getOne, { service: "vapi" });
 
   const [connectOpen, setConnectOpen] = useState(false);
   const [removeOpen, setRemoveOpen] = useState(false);
 
-  const handleSubmit = () => {
+  const toggleConnection = () => {
     if (vapiPlugin) {
       setRemoveOpen(true);
     } else {
@@ -150,6 +192,7 @@ export const VapiView = () => {
   return (
     <>
       <VapiPluginForm open={connectOpen} setOpen={setConnectOpen} />
+      <VapiPluginRemoveForm open={removeOpen} setOpen={setRemoveOpen} />
       <div className="flex min-h-screen flex-col bg-muted p-8">
         <div className="mx-auto w-full max-w-screen-md">
           <div className="space-y-2">
@@ -161,14 +204,14 @@ export const VapiView = () => {
 
           <div className="mt-8">
             {vapiPlugin ? (
-              <p>Terhubung!!</p>
+              <VapiConnectedView onDisconnect={toggleConnection} />
             ) : (
               <PluginCard
                 serviceImage="/vapi.jpg"
                 serviceName="Vapi"
                 feature={vapiFeatures}
                 isDisabled={vapiPlugin === undefined}
-                onSubmit={handleSubmit}
+                onSubmit={toggleConnection}
               />
             )}
           </div>

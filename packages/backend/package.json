@@ -22,9 +22,11 @@
     "@convex-dev/agent": "^0.2.5",
     "@convex-dev/agent-playground": "^0.0.19",
     "@convex-dev/rag": "^0.5.2",
+    "@vapi-ai/server-sdk": "^0.10.0",
     "ai": "^5.0.26",
     "convex": "^1.26.1",
     "convex-helpers": "^0.1.100",
+    "stream": "^0.0.3",
     "zod": "^3.25.76"
   }
 }
