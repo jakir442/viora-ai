@@ -42,7 +42,7 @@ const customerSupportItems = [
 
 const configurationItems = [
   {
-    title: "Kustomisasi widget",
+    title: "Pengaturan widget",
     url: "/customization",
     icon: PaletteIcon,
   },
