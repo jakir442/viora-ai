@@ -8,6 +8,7 @@ import {
   loadingMessageAtom,
   organizationIdAtom,
   screenAtom,
+  vapiSecretAtom,
   widgetSettingsAtom,
 } from "@/modules/widget/atoms/widget-atoms";
 import { WidgetHeader } from "@/modules/widget/ui/components/widget-header";
@@ -27,6 +28,7 @@ export const WidgetLoadingScreen = ({ organizationId }: { organizationId: string
   const setErrorMessage = useSetAtom(errorMessageAtom);
   const setLoadingMessage = useSetAtom(loadingMessageAtom);
   const setScreen = useSetAtom(screenAtom);
+  const setVapiSecrets = useSetAtom(vapiSecretAtom);
 
   const contactSessionId = useAtomValue(contactSessionIdAtomFamily(organizationId || ""));
 
@@ -119,9 +121,34 @@ export const WidgetLoadingScreen = ({ organizationId }: { organizationId: string
 
     if (widgetSettings !== undefined) {
       setWidgetSettings(widgetSettings);
-      setStep("done");
+      setStep("vapi");
     }
   }, [step, widgetSettings, setWidgetSettings, setLoadingMessage]);
+
+  // Step 4: Load Vapi secrets (optional)
+  const getVapiSecrets = useAction(api.public.secrets.getVapiSecrets);
+  useEffect(() => {
+    if (step !== "vapi") {
+      return;
+    }
+
+    if (!organizationId) {
+      setErrorMessage("ID Organisasi harus diisi");
+      setScreen("error");
+      return;
+    }
+
+    setLoadingMessage("Memuat fitur suara...");
+    getVapiSecrets({ organizationId })
+      .then((secrets) => {
+        setVapiSecrets(secrets);
+        setStep("done");
+      })
+      .catch(() => {
+        setVapiSecrets(null);
+        setStep("done");
+      });
+  }, [step, organizationId, getVapiSecrets, setVapiSecrets, setLoadingMessage, setStep]);
 
   useEffect(() => {
     if (step !== "done") {
