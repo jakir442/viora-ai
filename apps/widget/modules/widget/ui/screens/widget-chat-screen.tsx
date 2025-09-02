@@ -161,7 +161,8 @@ export const WidgetChatScreen = () => {
           })}
         </AIConversationContent>
       </AIConversation>
-      {toUIMessages(
+      {/* Ini untuk Pengatura AWS pesan suara */}
+      {/* {toUIMessages(
         messages.results ??
           ([]?.length == 1 && (
             <AISuggestions className="flex w-full flex-col items-end p-2">
@@ -187,7 +188,7 @@ export const WidgetChatScreen = () => {
               })}
             </AISuggestions>
           ))
-      )}
+      )} */}
       <Form {...form}>
         <AIInput
           className="rounded-nonde border-x-0 border-b-0"
