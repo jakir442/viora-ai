@@ -1,0 +1,9 @@
+running aplikasi = turbo dev
+build aplikasi = turbo build
+
+org_31vLGsE4m9TZMPkZcQFmTziY4ps
+
+viora_public_api_key=ba648233-77c7-450a-817d-c950a349d1cc
+viora_private_api_key=4c3d2c39-ab80-4e03-98c5-acb5fb2de09e
+
+penggunaan viora-ai-widget yang benar => https://viora-ai-widget.vercel.app/?organizationId=org_32DpGhmV6EruBqCOupSc1aZWr0M
